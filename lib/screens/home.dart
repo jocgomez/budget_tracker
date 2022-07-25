@@ -1,7 +1,10 @@
 import 'package:budget_tracker/extension/set_budget_dialog.dart';
 import 'package:budget_tracker/pages/home_page.dart';
 import 'package:budget_tracker/pages/profile_page.dart';
+import 'package:budget_tracker/services/budget_service.dart';
+import 'package:budget_tracker/services/theme_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -25,9 +28,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final themeService = context.watch<ThemeService>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Budget Tracker'),
+        leading: IconButton(
+          onPressed: () => themeService.darkTheme = !themeService.darkTheme,
+          icon: Icon(
+            themeService.darkTheme
+                ? Icons.light_mode_outlined
+                : Icons.dark_mode_outlined,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.attach_money),
@@ -35,7 +47,10 @@ class _HomeState extends State<Home> {
               showDialog(
                 context: context,
                 builder: (context) => SetBudgetDialog(
-                  budgetToAdd: (budget) {},
+                  budgetToAdd: (budget) {
+                    final budgetService = context.read<BudgetService>();
+                    budgetService.budget = budget;
+                  },
                 ),
               );
             },
