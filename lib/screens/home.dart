@@ -1,3 +1,4 @@
+import 'package:budget_tracker/extension/set_budget_dialog.dart';
 import 'package:budget_tracker/pages/home_page.dart';
 import 'package:budget_tracker/pages/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,19 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Budget Tracker'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.attach_money),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => SetBudgetDialog(
+                  budgetToAdd: (budget) {},
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: pages[_currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
